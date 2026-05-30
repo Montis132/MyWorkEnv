@@ -1,0 +1,19 @@
+#!/bin/sh
+fsearch() {
+    case_sensitive="$1"
+    whole_word="$2"
+    shift 2
+
+    if [ $# -eq 0 ]; then
+        echo "usage: $(basename "$0") 'kay'" >&2
+        return 1
+    fi
+
+    pattern="$*"
+    opts="-rnI --color=auto"
+
+    [ "$case_sensitive" = "0" ] && opts="$opts -i"
+    [ "$whole_word"     = "1" ] && opts="$opts -w"
+
+    grep $opts -- "$pattern" . 2>/dev/null
+}
